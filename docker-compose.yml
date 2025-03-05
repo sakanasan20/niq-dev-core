@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  niq-dev-core:
+    build:
+      context: .
+      dockerfile: default.Dockerfile
+    container_name: niq-dev-core
+    networks:
+      - niq-dev-internal
+
+networks:
+  niq-dev-internal:
+    external: true
