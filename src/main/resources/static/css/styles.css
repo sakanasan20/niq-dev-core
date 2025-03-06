@@ -63,6 +63,7 @@ body {
 	font-size: 1.2rem;
 	padding: 10px 20px;
 	height: 56px;
+	border-radius: 0;
 }
 
 #toggleSidebar:hover {

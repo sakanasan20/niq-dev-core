@@ -30,12 +30,15 @@
         <!-- Navbar -->
 		<nav class="navbar navbar-dark bg-dark">
 		    <div class="container-fluid">
-		        <span class="navbar-brand">📌 我的網站</span>
+		        <span class="navbar-brand"><i class="bi bi-pin"></i> NIQ-DEV</span>
 		
 		        <!-- 右側登入者資訊 & 登出按鈕 -->
 		        <div class="d-flex align-items-center">
-		            <span class="text-white me-3">👤 使用者名稱</span>
-		            <button id="logoutBtn" class="btn btn-outline-light btn-sm">登出</button>
+					<span class="text-white me-3" sec:authorize="isAuthenticated()">
+						<i class="bi bi-person"></i> 
+						<span th:text="${authUser?.displayName}"></span>
+					</span>
+					<button id="logoutBtn" class="btn btn-outline-light btn-sm">登出</button>
 		        </div>
 		    </div>
 		</nav>
