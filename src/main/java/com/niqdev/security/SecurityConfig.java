@@ -55,7 +55,7 @@ public class SecurityConfig {
 						.loginPage("/login").permitAll()
 						.loginProcessingUrl("/login")
 						.successForwardUrl("/home")
-						.defaultSuccessUrl("/home")
+						.defaultSuccessUrl("/home", true)
 						.failureUrl("/login?error"))
 				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
 						.logoutSuccessUrl("/login?logout").permitAll())
