@@ -1,66 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{ fragments/common :: common-header(links=~{}) }" />
+<head th:replace="~{ fragments/common :: common-header }" />
 <body>
 
     <!-- 左側 Sidebar -->
-    <div id="sidebar">
-        <!-- Sidebar 收縮按鈕 -->
-        <button id="toggleSidebar" class="btn"><i class="bi bi-list"></i></button>
-        
-        <a href="#"><i class="bi bi-house-door"></i> <span>首頁</span></a>
-        <a href="#"><i class="bi bi-file-earmark-text"></i> <span>文章</span></a>
-
-        <!-- 可摺疊的子菜單（設定） -->
-        <a href="javascript:void(0);" id="collapseSetting">
-            <i class="bi bi-gear"></i> <span>設定</span>
-            <i class="bi bi-chevron-down ms-auto submenu-toggle-btn" id="submenuToggleIcon"></i> <!-- Chevron 圖示 -->
-        </a>
-        <div id="submenu" class="collapse">
-            <a href="#">🔧 設定 1</a>
-            <a href="#">🔩 設定 2</a>
-            <a href="#">⚙ 設定 3</a>
-        </div>
-
-        <a href="#"><i class="bi bi-bar-chart-line"></i> <span>分析</span></a>
-    </div>
+	<div th:replace="~{ fragments/common :: common-sidebar }"></div>
 
     <!-- 主要內容區域 -->
     <div id="content">
         <!-- Navbar -->
-		<nav class="navbar navbar-dark bg-dark">
-		    <div class="container-fluid">
-		        <span class="navbar-brand"><i class="bi bi-pin"></i> NIQ-DEV</span>
-		
-		        <!-- 右側登入者資訊 & 登出按鈕 -->
-		        <div class="d-flex align-items-center">
-					<span class="text-white me-3" sec:authorize="isAuthenticated()">
-						<i class="bi bi-person"></i> 
-						<span th:text="${authUser?.displayName}"></span>
-					</span>
-					<button id="logoutBtn" class="btn btn-outline-light btn-sm">登出</button>
-		        </div>
-		    </div>
-		</nav>
+		<div th:replace="~{ fragments/common :: common-navbar }"></div>
 		
 		<!-- 登出確認 Modal -->
-		<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h5 class="modal-title" id="logoutModalLabel">確認登出</h5>
-		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		            </div>
-		            <div class="modal-body">
-		                您確定要登出嗎？
-		            </div>
-		            <div class="modal-footer">
-		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-		                <a href="/logout" class="btn btn-danger">確定登出</a>
-		            </div>
-		        </div>
-		    </div>
-		</div>
+		<div th:replace="~{ fragments/common :: common-logout-modal }"></div>
 
         <!-- 頁面內容 -->
         <div class="container">
