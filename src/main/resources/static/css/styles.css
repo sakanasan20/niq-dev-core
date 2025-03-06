@@ -1,55 +1,122 @@
-html, body {
-	height: 100%;
-}
-
 body {
+	display: flex;
+	height: 100vh;
+	margin: 0;
+}
+
+/* Sidebar 設定 */
+#sidebar {
+	width: 250px;
+	background-color: #343a40;
+	color: white;
+	transition: width 0.3s;
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
 	overflow: hidden;
+	white-space: nowrap;
 }
 
-.container-fluid, .container {
-	height: 100%;
+/* 當 Sidebar 收縮時 */
+#sidebar.collapsed {
+	width: 60px;
 }
 
-.sidebar, .main-contain {
-	height: 90vh;
-	overflow-y: auto;
+/* 菜單項目 */
+#sidebar a {
+	color: white;
+	text-decoration: none;
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
 }
 
-.btn-toggle {
-	padding: .25rem .5rem;
-	font-weight: 600;
-	color: var(--bs-emphasis-color);
-	background-color: transparent;
+/* 在 Sidebar 收縮時，隱藏文字，只顯示圖示 */
+#sidebar.collapsed a span {
+	display: none;
 }
 
-.btn-toggle:hover, .btn-toggle:focus {
-	color: rgba(var(--bs-emphasis-color-rgb), .85);
-	background-color: var(--bs-tertiary-bg);
+#sidebar a i {
+	margin-right: 10px;
+	transition: margin 0.3s;
 }
 
-.btn-toggle::before {
-	width: 1.25em;
-	line-height: 0;
-	content:
-		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-	transition: transform .35s ease;
-	transform-origin: .5em 50%;
+/* 在 Sidebar 收縮時，隱藏圖示右邊的空間 */
+#sidebar.collapsed a i {
+	margin-right: 0;
 }
 
-.btn-toggle[aria-expanded="true"] {
-	color: rgba(var(--bs-emphasis-color-rgb), .85);
+#sidebar a:hover {
+	background-color: #495057;
 }
 
-.btn-toggle[aria-expanded="true"]::before {
-	transform: rotate(90deg);
+/* Sidebar Toggle 按鈕 */
+#toggleSidebar {
+	width: 100%;
+	text-align: left;
+	border: none;
+	background: #212529;
+	color: white;
+	font-size: 1.2rem;
+	padding: 10px 20px;
+	height: 56px;
 }
 
-.btn-toggle-nav a {
-	padding: .1875rem .5rem;
-	margin-top: .125rem;
-	margin-left: 1.25rem;
+#toggleSidebar:hover {
+	background: #495057;
 }
 
-.btn-toggle-nav a:hover, .btn-toggle-nav a:focus {
-	background-color: var(--bs-tertiary-bg);
+/* Navbar 設定 */
+.navbar {
+	height: 56px;
+	position: fixed;
+	top: 0;
+	left: 250px;
+	width: calc(100% - 250px);
+	transition: left 0.3s, width 0.3s;
+	z-index: 1000;
+}
+
+#sidebar.collapsed+#content .navbar {
+	left: 60px;
+	width: calc(100% - 60px);
+}
+
+/* 內容區域 */
+#content {
+	flex-grow: 1;
+	margin-left: 250px;
+	transition: margin-left 0.3s;
+	width: 100%;
+}
+
+#sidebar.collapsed+#content {
+	margin-left: 60px;
+}
+
+/* 展開/收折按鈕 */
+.submenu-toggle-btn {
+	cursor: pointer;
+	z-index: 1050;
+}
+
+/* 預設隱藏子菜單的圖示 */
+.submenu-toggle-btn i {
+	transition: transform 0.3s;
+}
+
+#sidebar.collapsed .submenu-toggle-btn {
+	display: block; /* 收縮時顯示 */
+}
+
+/* 展開/收折按鈕顯示的樣式 */
+#submenu {
+	margin-left: 20px;
+}
+
+.container {
+	margin-top: 80px; /* 預留 Navbar 空間 */
 }
