@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{ fragments/common :: common-header(links=~{}) }" />
+<body>
+	<div class="container" 
+		th:with="profiles=${@environment.getProperty('spring.profiles.active') == null ? @environment.getProperty('spring.profiles.default') : @environment.getProperty('spring.profiles.active')}">
+		<p>目前啟用的環境: <span th:text="${profiles}"></span></p>
+	</div>
+	<div th:replace="~{ fragments/common :: common-script }"></div>
+</body>
+</html>

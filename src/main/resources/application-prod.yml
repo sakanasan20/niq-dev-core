@@ -1,5 +1,15 @@
 spring:
-  security:
-    user:
-      name: prod
-      password: prod 
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      settings.web-allow-others: true
+logging:
+  level:
+    "[com.niqdev]": debug  

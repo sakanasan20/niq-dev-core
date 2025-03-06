@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{ fragments/common :: common-header(links=~{}) }" />
+<body class="d-flex align-items-center">
+	<div class="card text-center w-25 mx-auto">
+		<div class="card-body">
+			<h1 class="card-title py-3">NIQ-DEV</h1>
+			<form th:action="@{/login}" method="post">
+				<div class="form-floating mb-3">
+					<input type="text" class="form-control" id="username" name="username" placeholder="帳號">
+					<label for="username">帳號</label>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="password"  class="form-control"id="password" name="password" placeholder="密碼">
+					<label for="password">密碼</label>
+				</div>
+				<button type="submit" class="btn btn-primary w-100 py-3 mb-3">登入</button>
+				<div class="mt-5" th:text="'&copy; 2024'"></div>
+			</form>
+		</div>
+	</div>
+	<div th:replace="~{ fragments/common :: common-script }"></div>
+</body>
+</html>

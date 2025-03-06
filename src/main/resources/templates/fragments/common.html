@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="common-header(links)">
+	<meta charset="UTF-8">
+	<title th:text="'NIQ-DEV'"></title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/dist/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css}">
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap-table/1.23.5/dist/bootstrap-table.min.css}">
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<th:block th:replace="${links}" />
+</head>
+<body>
+	<div th:fragment="common-script">
+		<script th:src="@{/webjars/bootstrap/5.3.3/dist/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/webjars/jquery/3.7.1/dist/jquery.min.js}"></script>
+		<script th:src="@{/webjars/jquery-validation/1.20.0/jquery.validate.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap-table/1.23.5/dist/bootstrap-table.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap-table/1.23.5/dist/bootstrap-table-locale-all.min.js}"></script>
+	</div>
+</body>
+</html>

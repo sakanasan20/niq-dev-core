@@ -1,5 +1,0 @@
-spring:
-  security:
-    user:
-      name: staging
-      password: staging 
