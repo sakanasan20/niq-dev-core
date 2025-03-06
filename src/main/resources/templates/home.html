@@ -1,11 +1,244 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{ fragments/common :: common-header(links=~{}) }" />
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 自訂 CSS -->
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Sidebar 設定 */
+        #sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            transition: width 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* 當 Sidebar 收縮時 */
+        #sidebar.collapsed {
+            width: 60px;
+        }
+
+        /* 菜單項目 */
+        #sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 在 Sidebar 收縮時，隱藏文字，只顯示圖示 */
+        #sidebar.collapsed a span {
+            display: none;
+        }
+
+        #sidebar a i {
+            margin-right: 10px;
+            transition: margin 0.3s;
+        }
+
+        /* 在 Sidebar 收縮時，隱藏圖示右邊的空間 */
+        #sidebar.collapsed a i {
+            margin-right: 0;
+        }
+
+        #sidebar a:hover {
+            background-color: #495057;
+        }
+
+        /* Sidebar Toggle 按鈕 */
+        #toggleSidebar {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: #212529;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            height: 56px;
+        }
+
+        #toggleSidebar:hover {
+            background: #495057;
+        }
+
+        /* Navbar 設定 */
+        .navbar {
+            height: 56px;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            width: calc(100% - 250px);
+            transition: left 0.3s, width 0.3s;
+            z-index: 1000;
+        }
+
+        #sidebar.collapsed + #content .navbar {
+            left: 60px;
+            width: calc(100% - 60px);
+        }
+
+        /* 內容區域 */
+        #content {
+            flex-grow: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s;
+            width: 100%;
+        }
+
+        #sidebar.collapsed + #content {
+            margin-left: 60px;
+        }
+
+        /* 展開/收折按鈕 */
+        .submenu-toggle-btn {
+            cursor: pointer;
+            z-index: 1050;
+        }
+
+        /* 預設隱藏子菜單的圖示 */
+        .submenu-toggle-btn i {
+            transition: transform 0.3s;
+        }
+
+        #sidebar.collapsed .submenu-toggle-btn {
+            display: block; /* 收縮時顯示 */
+        }
+
+        /* 展開/收折按鈕顯示的樣式 */
+        #submenu {
+            margin-left: 20px;
+        }
+
+        .container {
+            margin-top: 80px; /* 預留 Navbar 空間 */
+        }
+    </style>
+</head>
 <body>
-	<div class="container" 
-		th:with="profiles=${@environment.getProperty('spring.profiles.active') == null ? @environment.getProperty('spring.profiles.default') : @environment.getProperty('spring.profiles.active')}">
-		<p>目前啟用的環境: <span th:text="${profiles}"></span></p>
-	</div>
-	<div th:replace="~{ fragments/common :: common-script }"></div>
+
+    <!-- 左側 Sidebar -->
+    <div id="sidebar">
+        <!-- Sidebar 收縮按鈕 -->
+        <button id="toggleSidebar" class="btn"><i class="bi bi-list"></i></button>
+        
+        <a href="#"><i class="bi bi-house-door"></i> <span>首頁</span></a>
+        <a href="#"><i class="bi bi-file-earmark-text"></i> <span>文章</span></a>
+
+        <!-- 可摺疊的子菜單（設定） -->
+        <a href="javascript:void(0);" id="collapseSetting">
+            <i class="bi bi-gear"></i> <span>設定</span>
+            <i class="bi bi-chevron-down ms-auto submenu-toggle-btn" id="submenuToggleIcon"></i> <!-- Chevron 圖示 -->
+        </a>
+        <div id="submenu" class="collapse">
+            <a href="#">🔧 設定 1</a>
+            <a href="#">🔩 設定 2</a>
+            <a href="#">⚙ 設定 3</a>
+        </div>
+
+        <a href="#"><i class="bi bi-bar-chart-line"></i> <span>分析</span></a>
+    </div>
+
+    <!-- 主要內容區域 -->
+    <div id="content">
+        <!-- Navbar -->
+		<nav class="navbar navbar-dark bg-dark">
+		    <div class="container-fluid">
+		        <span class="navbar-brand">📌 我的網站</span>
+		
+		        <!-- 右側登入者資訊 & 登出按鈕 -->
+		        <div class="d-flex align-items-center">
+		            <span class="text-white me-3">👤 使用者名稱</span>
+		            <button id="logoutBtn" class="btn btn-outline-light btn-sm">登出</button>
+		        </div>
+		    </div>
+		</nav>
+		
+		<!-- 登出確認 Modal -->
+		<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="logoutModalLabel">確認登出</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <div class="modal-body">
+		                您確定要登出嗎？
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+		                <a href="/logout" class="btn btn-danger">確定登出</a>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+        <!-- 頁面內容 -->
+        <div class="container">
+            <h1>歡迎來到首頁</h1>
+            <p>這是一個帶有可摺疊子菜單並且可以展開/收起 Sidebar 的範例。</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS + Sidebar 控制 -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <!-- Sidebar 控制 jQuery -->
+    <script>
+    $(document).ready(function () {
+        // Sidebar Toggle 按鈕控制
+        $("#toggleSidebar").click(function () {
+            $("#sidebar").toggleClass("collapsed");
+
+            // 檢查 Sidebar 是否收縮，來隱藏/顯示子菜單圖示
+            if ($("#sidebar").hasClass("collapsed")) {
+                $("#submenuToggleIcon").hide(); // Sidebar 縮小時，隱藏折疊圖示
+            } else {
+                $("#submenuToggleIcon").show(); // Sidebar 展開時，顯示折疊圖示
+            }
+        });
+
+        // 點擊 "設定" 選單，展開或收起子菜單
+        $("#collapseSetting").click(function () {
+            $("#submenu").collapse('toggle');
+
+            // 切換 Chevron 圖示 (只有在 Sidebar 展開時才變動)
+            if (!$("#sidebar").hasClass("collapsed")) {
+                if ($("#submenuToggleIcon").hasClass("bi-chevron-down")) {
+                    $("#submenuToggleIcon").removeClass("bi-chevron-down").addClass("bi-chevron-up");
+                } else {
+                    $("#submenuToggleIcon").removeClass("bi-chevron-up").addClass("bi-chevron-down");
+                }
+            }
+        });
+        
+     	// 當按下登出按鈕時顯示登出確認 Modal
+        $("#logoutBtn").click(function() {
+            $('#logoutModal').modal('show');
+        });
+    });
+    </script>
 </body>
 </html>
