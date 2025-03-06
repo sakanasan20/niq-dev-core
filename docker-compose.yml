@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: default.Dockerfile
     container_name: niq-dev-core
+    ports:
+      - '8000:8080'
     networks:
       - niq-dev-internal
 
