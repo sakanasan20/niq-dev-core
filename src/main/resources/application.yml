@@ -3,3 +3,5 @@ spring:
     name: niq-dev-core
   profiles:
     default: dev
+server:
+  forward-headers-strategy: native
