@@ -1,27 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{ fragments/common :: common-header }" />
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-
-    <!-- 左側 Sidebar -->
-	<div th:replace="~{ fragments/common :: common-sidebar }"></div>
-
-    <!-- 主要內容區域 -->
-    <div id="content">
-        <!-- Navbar -->
-		<div th:replace="~{ fragments/common :: common-navbar }"></div>
-		
-		<!-- 登出確認 Modal -->
-		<div th:replace="~{ fragments/common :: common-logout-modal }"></div>
-
-        <!-- 頁面內容 -->
-        <div class="container">
-            <h1>歡迎來到首頁</h1>
-            <p>這是一個帶有可摺疊子菜單並且可以展開/收起 Sidebar 的範例。</p>
-        </div>
-    </div>
-
-    <!-- 共用 JS -->
-    <div th:replace="~{ fragments/common :: common-script }"></div>
+	<th:block th:replace="~{layout :: layout(~{::#replace-content})}">
+		<div id="replace-content">
+	        <h1>公告</h1>
+	        <p>選擇要顯示的公告類別</p>
+	
+	        <!-- 分類下拉選單 -->
+	        <div class="mb-3">
+	            <select id="categorySelect" class="form-select">
+	                <option value="all">📌 全部公告</option>
+	                <option value="news">📰 最新消息</option>
+	                <option value="event">📅 活動公告</option>
+	                <option value="system">⚙ 系統更新</option>
+	            </select>
+	        </div>
+	
+	        <!-- 公告列表 -->
+	        <div id="announcementList">
+	            <div class="row">
+	                <div class="col-12 mb-4 announcement-card" data-category="news">
+	                    <div class="card">
+	                        <div class="card-header">📰 最新消息</div>
+	                        <div class="card-body">
+	                            <h5 class="card-title">公告標題 1</h5>
+	                            <p class="card-text">這是最新消息公告的內容...</p>
+	                        </div>
+	                    </div>
+	                </div>
+	
+	                <div class="col-12 mb-4 announcement-card" data-category="event">
+	                    <div class="card">
+	                        <div class="card-header">📅 活動公告</div>
+	                        <div class="card-body">
+	                            <h5 class="card-title">活動公告 1</h5>
+	                            <p class="card-text">這是一則活動公告的內容...</p>
+	                        </div>
+	                    </div>
+	                </div>
+	                
+	                <div class="col-12 mb-4 announcement-card" data-category="system">
+	                    <div class="card">
+	                        <div class="card-header">⚙ 系統更新</div>
+	                        <div class="card-body">
+	                            <h5 class="card-title">系統公告 1</h5>
+	                            <p class="card-text">這是一則系統更新公告的內容...</p>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</th:block>
 </body>
 </html>

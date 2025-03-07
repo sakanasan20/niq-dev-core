@@ -30,4 +30,16 @@ $(document).ready(function() {
 	$("#logoutBtn").click(function() {
 		$('#logoutModal').modal('show');
 	});
+	
+	// 監聽公告下拉選單變更
+	$("#categorySelect").on("change", function() {
+	    var selectedCategory = $(this).val(); // 取得選中的類別
+	
+	    if (selectedCategory === "all") {
+	        $(".announcement-card").show(); // 顯示所有公告
+	    } else {
+	        $(".announcement-card").hide(); // 隱藏所有公告
+	        $(".announcement-card[data-category='" + selectedCategory + "']").show(); // 只顯示選中的類別
+	    }
+	});
 });
