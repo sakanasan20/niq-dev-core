@@ -9,9 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.niqdev.domain.Announcement;
+import com.niqdev.domain.AnnouncementCategory;
 import com.niqdev.domain.Authority;
 import com.niqdev.domain.Role;
 import com.niqdev.domain.User;
+import com.niqdev.repository.AnnouncementRepository;
 import com.niqdev.repository.AuthorityRepository;
 import com.niqdev.repository.RoleRepository;
 import com.niqdev.repository.UserRepository;
@@ -28,12 +31,24 @@ public class DataLoader implements CommandLineRunner {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	private final AnnouncementRepository announcementRepository;
+	
 	@Transactional
 	@Override
 	public void run(String... args) throws Exception {
 		loadAuthorities();
 		loadRoles();
 		loadUsers();
+		loadAnnouncements();
+	}
+
+	@Transactional
+	private void loadAnnouncements() {
+		announcementRepository.saveAll(Arrays.asList(
+				Announcement.builder().announcementId(UUID.randomUUID().toString()).category(AnnouncementCategory.NEWS).title("公告標題 1").content("這是最新消息公告的內容...").build(), 
+				Announcement.builder().announcementId(UUID.randomUUID().toString()).category(AnnouncementCategory.EVENT).title("活動公告 1").content("這是一則活動公告的內容...").build(), 
+				Announcement.builder().announcementId(UUID.randomUUID().toString()).category(AnnouncementCategory.SYSTEM).title("系統公告 1").content("這是一則系統更新公告的內容...").build()
+		));
 	}
 
 	@Transactional

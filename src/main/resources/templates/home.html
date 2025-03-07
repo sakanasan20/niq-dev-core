@@ -10,42 +10,65 @@
 	        <div class="mb-3">
 	            <select id="categorySelect" class="form-select">
 	                <option value="all">📌 全部公告</option>
-	                <option value="news">📰 最新消息</option>
-	                <option value="event">📅 活動公告</option>
-	                <option value="system">⚙ 系統更新</option>
+	                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat.displayName}"></option>
 	            </select>
 	        </div>
 	
 	        <!-- 公告列表 -->
-	        <div id="announcementList">
+	        <div id="announcementList" class="pt-5">
 	            <div class="row">
-	                <div class="col-12 mb-4 announcement-card" data-category="news">
+	                <div class="col-12 mb-4 announcement-card" th:each="announcement : ${announcements}" th:data-category="${announcement.category}">
 	                    <div class="card">
-	                        <div class="card-header">📰 最新消息</div>
-	                        <div class="card-body">
-	                            <h5 class="card-title">公告標題 1</h5>
-	                            <p class="card-text">這是最新消息公告的內容...</p>
+	                        <div class="card-header">
+	                            <span th:text="${announcement.category.displayName}"></span>
 	                        </div>
-	                    </div>
-	                </div>
-	
-	                <div class="col-12 mb-4 announcement-card" data-category="event">
-	                    <div class="card">
-	                        <div class="card-header">📅 活動公告</div>
-	                        <div class="card-body">
-	                            <h5 class="card-title">活動公告 1</h5>
-	                            <p class="card-text">這是一則活動公告的內容...</p>
-	                        </div>
-	                    </div>
-	                </div>
-	                
-	                <div class="col-12 mb-4 announcement-card" data-category="system">
-	                    <div class="card">
-	                        <div class="card-header">⚙ 系統更新</div>
-	                        <div class="card-body">
-	                            <h5 class="card-title">系統公告 1</h5>
-	                            <p class="card-text">這是一則系統更新公告的內容...</p>
-	                        </div>
+							<div class="card-body">
+							    <h5 class="card-title" th:text="${announcement.title}"></h5>
+							
+							    <!-- 內容長度判斷 -->
+							    <th:block th:if="${#strings.length(announcement.content) > 50}">
+							        <!-- 短內容（預設顯示） -->
+							        <p class="card-text" th:text="${#strings.substring(announcement.content, 0, 50) + '...'}"></p>
+							
+							        <!-- Bootstrap Collapse - 長內容（預設隱藏） -->
+							        <div class="collapse" th:id="'announcement-' + ${announcement.id}">
+							            <p class="card-text" th:text="${announcement.content}"></p>
+							        </div>
+							
+							        <!-- 顯示明細按鈕（只有內容超過 50 字時才顯示） -->
+							        <button class="btn btn-link" 
+							                data-bs-toggle="collapse" 
+							                th:data-bs-target="'#announcement-' + ${announcement.id}"
+							                aria-expanded="false">
+							            顯示明細
+							        </button>
+							    </th:block>
+							
+							    <!-- 若內容 <= 50 字，直接顯示完整內容 -->
+							    <th:block th:unless="${#strings.length(announcement.content) > 50}">
+							        <p class="card-text" th:text="${announcement.content}"></p>
+							    </th:block>
+							</div>
+							<div class="card-footer text-muted">
+							    <div class="row">
+							        <div class="col-6">
+							            <small><strong>建立者:</strong> <span th:text="${announcement.createdBy}"></span></small>
+							        </div>
+							        <div class="col-6">
+							            <small><strong>建立時間:</strong> 
+							            <span th:text="${#temporals.format(announcement.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></small>
+							        </div>
+							    </div>
+							    <div class="row">
+							        <div class="col-6">
+							            <small><strong>最後修改者:</strong> <span th:text="${announcement.updatedBy}"></span></small>
+							        </div>
+							        <div class="col-6">
+							            <small><strong>最後修改時間:</strong> 
+							            <span th:text="${#temporals.format(announcement.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></span></small>
+							        </div>
+							    </div>
+							</div>
 	                    </div>
 	                </div>
 	            </div>

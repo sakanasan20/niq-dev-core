@@ -42,4 +42,5 @@ $(document).ready(function() {
 	        $(".announcement-card[data-category='" + selectedCategory + "']").show(); // 只顯示選中的類別
 	    }
 	});
+
 });
